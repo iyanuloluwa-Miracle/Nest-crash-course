@@ -6,5 +6,6 @@ import { UserService } from './user.service'; // Fix the import and capitalizati
   imports: [],
   controllers: [UserController],
   providers: [UserService],
+  exports:[UserService]
 })
-export class AppModule {}
+export class UserModule {}

@@ -1,12 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from './interface/user';
 
 @Injectable()
 export class UserService {
   public users: User[] = []; // Ensure initialization of the array
 
-  getUser(): User[] {
+  getUsers(): User[] {
     return this.users;
+  }
+
+  getUser(email: string): User {
+
+    const userData = this.users.filter( i => i.email === email);
+    if(userData && Array.isArray(userData) && userData.length > 0){
+        return userData[0]
+    }
+    throw new NotFoundException('user not found')
+
   }
 
   addUser(user: User): User {
@@ -15,8 +25,8 @@ export class UserService {
   }
 
   deleteUser(email: string): User[] {
-    const remainingUsers = this.users.filter(i => i.email !== email); // Correct comparison
-    this.users = remainingUsers;
-    return this.users; // Return the updated users array
+    const remainingUser = this.users.filter(i => i.email !== email); 
+    this.users = remainingUser;
+    return remainingUser || [];
   }
 }

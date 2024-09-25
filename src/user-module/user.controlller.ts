@@ -3,13 +3,19 @@ import { UserService } from "./user.service"; // Correct the import
 
 import { User } from './interface/user';
 
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {} // Capitalize UserService
 
   @Get()
-  getUser(): User[] {
-    return this.userService.getUser();
+  getUsers(): User[] {
+    return this.userService.getUsers();
+  }
+
+   
+  @Get('/:email')
+  getUser(@Param('email') email:string): User{
+    return this.userService.getUser(email);
   }
 
   @Post()
